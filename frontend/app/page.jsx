@@ -30,7 +30,7 @@ export default function Home() {
           <span className="text-sm text-gray-700">Your AI-powered coding mentor</span>
         </div>
 
-        <h1 className="font-display font-extrabold text-5xl md:text-7xl leading-tight mb-6">
+        <h1 className="font-display font-extrabold text-4xl sm:text-5xl md:text-7xl leading-tight mb-6">
           Track your <span className="gradient-text">Codeforces</span><br />journey in style
         </h1>
 

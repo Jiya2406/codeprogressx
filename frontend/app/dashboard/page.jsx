@@ -170,10 +170,10 @@ export default function DashboardPage() {
       <NavBar />
 
       <div className="mb-8">
-        <h1 className="font-display text-4xl md:text-5xl font-bold mb-2">
+        <h1 className="font-display text-3xl sm:text-4xl md:text-5xl font-bold mb-2 break-words">
           Hi, {user.name || user.email.split('@')[0]} 👋
         </h1>
-        <p className="text-gray-600">Here's your Codeforces overview.</p>
+        <p className="text-gray-600 text-sm md:text-base">Here's your Codeforces overview.</p>
       </div>
 
       {!user.cfHandle ? (
@@ -209,7 +209,7 @@ export default function DashboardPage() {
         </div>
       ) : (
         <>
-          <div className="glass-card rounded-3xl p-6 md:p-7 shadow-soft mb-8 flex flex-col md:flex-row items-center gap-6">
+          <div className="glass-card rounded-3xl p-5 md:p-7 shadow-soft mb-6 md:mb-8 flex flex-col md:flex-row items-center gap-4 md:gap-6">
             {user.cfData?.titlePhoto ? (
               <img
                 src={user.cfData.titlePhoto}

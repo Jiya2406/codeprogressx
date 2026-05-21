@@ -99,8 +99,8 @@ export default function ContestsPage() {
       <NavBar />
 
       <div className="mb-8">
-        <h1 className="font-display text-4xl md:text-5xl font-bold mb-2">Upcoming Contests</h1>
-        <p className="text-gray-600">
+        <h1 className="font-display text-3xl sm:text-4xl md:text-5xl font-bold mb-2">Upcoming Contests</h1>
+        <p className="text-gray-600 text-sm md:text-base">
           Click <span className="font-semibold text-lavender-500">"Remind me"</span> on any contest —
           we'll email you exactly <span className="font-semibold">1 hour before</span> it starts.
         </p>

@@ -170,7 +170,7 @@ export default function MentorPage() {
       <div className="grid lg:grid-cols-[280px_1fr] gap-x-5">
         <div className="hidden lg:block" aria-hidden="true" />
         <h1 className="hidden lg:block font-display text-4xl md:text-5xl font-bold text-center mb-5">
-          AI Mentor <Sparkles className="inline w-7 h-7 text-lavender-400" />
+          AI Mentor <Sparkles className="inline w-6 h-6 md:w-7 md:h-7 text-lavender-400" />
         </h1>
 
         <aside
@@ -234,8 +234,8 @@ export default function MentorPage() {
         </aside>
 
         <div className="flex flex-col">
-          <h1 className="lg:hidden font-display text-4xl md:text-5xl font-bold text-center mb-5">
-            AI Mentor <Sparkles className="inline w-7 h-7 text-lavender-400" />
+          <h1 className="lg:hidden font-display text-3xl sm:text-4xl font-bold text-center mb-5">
+            AI Mentor <Sparkles className="inline w-6 h-6 text-lavender-400" />
           </h1>
           <div className="glass-card rounded-3xl shadow-soft flex flex-col" style={{ minHeight: '60vh' }}>
           <div
