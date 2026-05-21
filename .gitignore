@@ -1,0 +1,27 @@
+node_modules/
+.env
+.env.local
+.env*.local
+.next/
+build/
+dist/
+out/
+.DS_Store
+*.log
+*.tsbuildinfo
+
+# Local notes / secret files
+API keys.txt
+api-keys.txt
+secrets.txt
+*.pem
+*.key
+
+# Editor folders
+.vscode/
+.idea/
+
+# OS / misc
+Thumbs.db
+ehthumbs.db
+desktop.ini
