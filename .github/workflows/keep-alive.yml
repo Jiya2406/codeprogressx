@@ -1,0 +1,16 @@
+name: Keep backend alive
+
+on:
+  schedule:
+    - cron: '*/10 * * * *'    # every 10 minutes
+  workflow_dispatch:           # also allow manual triggering from Actions tab
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: Ping Render backend
+        run: |
+          echo "Pinging https://codeprogressx-api.onrender.com/"
+          curl -fsS --max-time 60 https://codeprogressx-api.onrender.com/ || echo "Ping failed but workflow continues"
