@@ -1,16 +1,24 @@
-name: Keep backend alive
+name: Keep backend alive + run reminder cron
 
 on:
   schedule:
-    - cron: '*/10 * * * *'    # every 10 minutes
-  workflow_dispatch:           # also allow manual triggering from Actions tab
+    - cron: '*/5 * * * *'    # every 5 minutes (best-effort by GitHub)
+  workflow_dispatch:           # also allow manual triggering
 
 jobs:
-  ping:
+  cron:
     runs-on: ubuntu-latest
     timeout-minutes: 2
     steps:
-      - name: Ping Render backend
+      - name: Trigger reminder check on backend
+        env:
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}
         run: |
-          echo "Pinging https://codeprogressx-api.onrender.com/"
-          curl -fsS --max-time 60 https://codeprogressx-api.onrender.com/ || echo "Ping failed but workflow continues"
+          echo "Calling POST /api/cron/reminders ..."
+          response=$(curl -sS -w "\nHTTP_STATUS:%{http_code}\n" \
+            --max-time 90 \
+            -X POST \
+            -H "x-cron-secret: $CRON_SECRET" \
+            https://codeprogressx-api.onrender.com/api/cron/reminders \
+            || echo "Request failed (server may be cold-starting)")
+          echo "$response"

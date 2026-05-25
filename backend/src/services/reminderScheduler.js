@@ -16,13 +16,19 @@ async function processDueReminders() {
     contestStartTime: { $gte: lowerBound, $lte: upperBound }
   }).lean();
 
-  if (due.length === 0) return;
+  const stats = { found: due.length, sent: 0, failed: 0, errors: [] };
+
+  if (due.length === 0) return stats;
 
   console.log(`[reminders] processing ${due.length} due reminder(s)`);
 
   for (const r of due) {
     const user = await User.findById(r.userId).lean();
-    if (!user) continue;
+    if (!user) {
+      stats.failed++;
+      stats.errors.push({ contestId: r.contestId, error: 'user not found' });
+      continue;
+    }
 
     const minutesUntil = Math.round((r.contestStartTime.getTime() - now) / 60000);
     const result = await email.sendContestReminder({
@@ -35,8 +41,14 @@ async function processDueReminders() {
 
     if (result.sent || result.skipped) {
       await Reminder.updateOne({ _id: r._id }, { $set: { emailSent: true } });
+      stats.sent++;
+    } else {
+      stats.failed++;
+      stats.errors.push({ contestId: r.contestId, error: result.error || 'unknown' });
     }
   }
+
+  return stats;
 }
 
 exports.start = () => {

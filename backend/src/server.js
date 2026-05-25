@@ -11,6 +11,7 @@ const recommendationRoutes = require('./routes/recommendations');
 const goalRoutes = require('./routes/goals');
 const contestRoutes = require('./routes/contests');
 const chatRoutes = require('./routes/chat');
+const cronRoutes = require('./routes/cron');
 
 const reminderScheduler = require('./services/reminderScheduler');
 
@@ -31,6 +32,7 @@ app.use('/api/recommendations', recommendationRoutes);
 app.use('/api/goals', goalRoutes);
 app.use('/api/contests', contestRoutes);
 app.use('/api/chat', chatRoutes);
+app.use('/api/cron', cronRoutes);
 
 app.use((err, _req, res, _next) => {
   console.error(err);
