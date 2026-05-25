@@ -6,8 +6,8 @@ const TTL = 15 * 60 * 1000;
 
 function maybeInjectTestContest(list) {
   if (process.env.INCLUDE_TEST_CONTEST !== 'true') return list;
-  // Fixed time: 2026-05-27 12:15 PM IST = 06:45 UTC
-  const testContestStartTime = new Date('2026-05-27T06:45:00.000Z').getTime();
+  // Fixed time: 2026-05-26 (Tuesday) 12:15 PM IST = 06:45 UTC
+  const testContestStartTime = new Date('2026-05-26T06:45:00.000Z').getTime();
   const startSec = Math.floor(testContestStartTime / 1000);
   const testContest = {
     id: 99999,
