@@ -4,14 +4,18 @@ let contestCache = null;
 let contestCacheTime = 0;
 const TTL = 15 * 60 * 1000;
 
+let testContestStartTime = null;
+
 function maybeInjectTestContest(list) {
   if (process.env.INCLUDE_TEST_CONTEST !== 'true') return list;
-  // Fixed time: 2026-05-26 (Tuesday) 12:15 PM IST = 06:45 UTC
-  const testContestStartTime = new Date('2026-05-26T06:45:00.000Z').getTime();
+  // First call sets contest time = 75 min from now; subsequent calls return the same time
+  if (!testContestStartTime) {
+    testContestStartTime = Date.now() + 75 * 60 * 1000;
+  }
   const startSec = Math.floor(testContestStartTime / 1000);
   const testContest = {
     id: 99999,
-    name: 'TEST Contest — Local Cron Verification',
+    name: 'TEST Contest — Production Cron Verification',
     type: 'CF',
     startTimeSeconds: startSec,
     startTime: new Date(testContestStartTime).toISOString(),
