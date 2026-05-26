@@ -8,9 +8,11 @@ let testContestStartTime = null;
 
 function maybeInjectTestContest(list) {
   if (process.env.INCLUDE_TEST_CONTEST !== 'true') return list;
-  // First call sets contest time = 75 min from now; subsequent calls return the same time
-  if (!testContestStartTime) {
-    testContestStartTime = Date.now() + 75 * 60 * 1000;
+  const now = Date.now();
+  // Refresh test contest time when it's too close (<30 min away) or in the past.
+  // This keeps the countdown useful as time passes.
+  if (!testContestStartTime || testContestStartTime - now < 30 * 60 * 1000) {
+    testContestStartTime = now + 75 * 60 * 1000;
   }
   const startSec = Math.floor(testContestStartTime / 1000);
   const testContest = {
