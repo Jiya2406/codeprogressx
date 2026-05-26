@@ -16,14 +16,15 @@ exports.sendContestReminder = async ({ to, contestName, startTime, contestUrl, m
     return { skipped: true };
   }
 
-  const formatted = new Date(startTime).toLocaleString('en-US', {
+  const formatted = new Date(startTime).toLocaleString('en-IN', {
     weekday: 'short',
     month: 'short',
     day: 'numeric',
     hour: 'numeric',
     minute: '2-digit',
-    hour12: true
-  });
+    hour12: true,
+    timeZone: 'Asia/Kolkata'
+  }) + ' IST';
 
   const html = `
     <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 560px; margin: 0 auto; background: linear-gradient(135deg, #FAF5FF 0%, #FFF1F2 50%, #FFF7ED 100%); padding: 40px 30px; border-radius: 24px;">

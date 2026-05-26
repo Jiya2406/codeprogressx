@@ -11,18 +11,24 @@ async function processDueReminders() {
   const lowerBound = new Date(now + WINDOW_MIN * 60 * 1000);
   const upperBound = new Date(now + WINDOW_MAX * 60 * 1000);
 
-  const due = await Reminder.find({
-    emailSent: false,
-    contestStartTime: { $gte: lowerBound, $lte: upperBound }
-  }).lean();
+  const stats = { found: 0, sent: 0, failed: 0, errors: [] };
 
-  const stats = { found: due.length, sent: 0, failed: 0, errors: [] };
+  // Atomically claim each due reminder by marking emailSent=true BEFORE sending.
+  // This prevents two backends (Render + Railway) racing and sending duplicates.
+  // If the email fails, we revert the flag so the next tick can retry.
+  while (true) {
+    const r = await Reminder.findOneAndUpdate(
+      {
+        emailSent: false,
+        contestStartTime: { $gte: lowerBound, $lte: upperBound }
+      },
+      { $set: { emailSent: true } },
+      { new: true }
+    ).lean();
+    if (!r) break;
 
-  if (due.length === 0) return stats;
+    stats.found++;
 
-  console.log(`[reminders] processing ${due.length} due reminder(s)`);
-
-  for (const r of due) {
     const user = await User.findById(r.userId).lean();
     if (!user) {
       stats.failed++;
@@ -40,12 +46,16 @@ async function processDueReminders() {
     });
 
     if (result.sent || result.skipped) {
-      await Reminder.updateOne({ _id: r._id }, { $set: { emailSent: true } });
       stats.sent++;
     } else {
+      await Reminder.updateOne({ _id: r._id }, { $set: { emailSent: false } });
       stats.failed++;
       stats.errors.push({ contestId: r.contestId, error: result.error || 'unknown' });
     }
+  }
+
+  if (stats.found > 0) {
+    console.log(`[reminders] processed ${stats.found} reminder(s): ${stats.sent} sent, ${stats.failed} failed`);
   }
 
   return stats;
