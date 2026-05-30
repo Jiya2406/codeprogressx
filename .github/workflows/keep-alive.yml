@@ -19,6 +19,6 @@ jobs:
             --max-time 90 \
             -X POST \
             -H "x-cron-secret: $CRON_SECRET" \
-            https://codeprogressx-api.onrender.com/api/cron/reminders \
+            https://codeprogressx-production.up.railway.app/api/cron/reminders \
             || echo "Request failed (server may be cold-starting)")
           echo "$response"
