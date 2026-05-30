@@ -98,4 +98,4 @@ All `/api/*` routes except `/api/auth/*` require `Authorization: Bearer <token>`
 
 ## Deployment
 
-The app is designed to deploy with the frontend on Vercel and the backend on Render (or any Node host). Set the same env vars in your host's dashboard and point `NEXT_PUBLIC_API_URL` at the deployed backend URL.
+The app is designed to deploy with the frontend on Vercel and the backend on Railway (or any Node host). Set the same env vars in your host's dashboard and point `NEXT_PUBLIC_API_URL` at the deployed backend URL.
